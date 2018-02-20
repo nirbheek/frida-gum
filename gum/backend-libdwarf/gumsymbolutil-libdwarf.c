@@ -15,7 +15,7 @@
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wtypedef-redefinition"
 #endif
-#include <libdwarf.h>
+#include GUM_LIBDWARF_H
 #ifdef __clang__
 # pragma clang diagnostic pop
 #endif

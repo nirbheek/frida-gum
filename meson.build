@@ -132,6 +132,8 @@ extra_deps = []
 extra_requires_private = []
 extra_libs_private = []
 
+gum_extra_cflags = []
+
 gumjs_extra_deps = []
 gumjs_extra_requires = []
 gumjs_extra_libraries = []
@@ -156,8 +158,14 @@ if host_os_family == 'linux' or host_os_family == 'qnx'
     error('libelf is required')
   endif
   have_libdwarf = cc.has_header('libdwarf.h')
-  if not have_libdwarf
-    error('libdwarf is required')
+  if have_libdwarf
+    gum_extra_cflags += ['-DGUM_LIBDWARF_H=<libdwarf.h>']
+  else
+    have_libdwarf = cc.has_header('libdwarf/libdwarf.h')
+    gum_extra_cflags += ['-DGUM_LIBDWARF_H=<libdwarf/libdwarf.h>']
+    if not have_libdwarf
+      error('libdwarf is required')
+    endif
   endif
   if host_os_family == 'linux'
     extra_libs_private += ['-ldwarf', '-lelf', '-ldl', '-lz']
